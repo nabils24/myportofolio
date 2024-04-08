@@ -6,6 +6,16 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      // make patterns github avatar
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      //make patterns for googleusercontent
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
   experimental: {
