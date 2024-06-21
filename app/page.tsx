@@ -6,13 +6,10 @@ import Projects from "@/components/projects";
 import SectionDivider from "@/components/section-divider";
 import Skills from "@/components/skills";
 
-import React, {useState, useEffect} from "react";
+
 
 export default function Home() {
-  useEffect(() => {
-      sessionStorage.setItem('user', "null");
-
-  }, [])
+  
   return (
     <main className="flex flex-col items-center px-4">
       <Intro />
