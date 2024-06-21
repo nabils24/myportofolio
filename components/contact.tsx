@@ -1,15 +1,41 @@
 "use client";
 
-import React from "react";
+import React, {useState, useEffect} from "react";
 import SectionHeading from "./section-heading";
 import { motion } from "framer-motion";
 import { useSectionInView } from "@/lib/hooks";
 import { sendEmail } from "@/actions/sendEmail";
 import SubmitBtn from "./submit-btn";
 import toast from "react-hot-toast";
+import { configFirebase } from "@/lib/data"
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
 export default function Contact() {
   const { ref } = useSectionInView("Contact");
+  
+  const app = initializeApp(configFirebase);
+  const db = getFirestore(app);
+
+  const [data, setDatas] = useState([]);
+
+  async function getaboutme() {
+    const aboutme = collection(db, 'aboutme');
+    const aboutmeSnapshot = await getDocs(aboutme);
+    let rt = aboutmeSnapshot.docs.map(doc => doc.data())
+    setDatas(rt[0]);
+  }
+
+  useEffect(() => {
+    // Logika atau aksi yang ingin Anda jalankan saat komponen dibuat
+    console.log('Komponen dibuat');
+    getaboutme();
+  }, []);
+
+  useEffect(() => {
+    // Logika yang ingin Anda jalankan setelah data diperbarui
+    console.log('Data telah diperbarui:', data);
+  }, [data]); // Menjalankan efek ini setiap kali data berubah
 
   return (
     <motion.section
@@ -33,8 +59,8 @@ export default function Contact() {
 
       <p className="text-gray-700 -mt-6 dark:text-white/80">
         Please contact me directly at{" "}
-        <a className="underline" href="mailto:example@gmail.com">
-          example@gmail.com
+        <a className="underline" href={`mailto:${data.email}`}>
+          {data.email}
         </a>{" "}
         or through this form.
       </p>
